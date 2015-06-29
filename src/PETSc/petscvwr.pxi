@@ -98,6 +98,7 @@ cdef extern from * nogil:
     int PetscViewerHDF5GetGroup(PetscViewer,char*[])
 
     int PetscViewerHDF5HasAttribute(PetscViewer,char[],char[],PetscBool*)
+    int PetscViewerHDF5WriteAttribute(PetscViewer,char[],char[],PetscDataType,void*)
 
     PetscViewer PETSC_VIEWER_STDOUT_(MPI_Comm) except? NULL
     PetscViewer PETSC_VIEWER_STDOUT_SELF

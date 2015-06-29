@@ -378,6 +378,36 @@ cdef class ViewerHDF5(Viewer):
         CHKERR( PetscViewerHDF5HasAttribute(self.vwr, cgroup, cattr, &flag) )
         return <bint> flag
 
+    def writeAttributeInt(self, group, attr, data):
+        cdef const_char *cgroup = NULL
+        group = str2bytes(group, &cgroup)
+        cdef const_char *cattr = NULL
+        group = str2bytes(attr, &cattr)
+        cdef PetscInt idata = asInt(data)
+        CHKERR( PetscViewerHDF5WriteAttribute(self.vwr, cgroup, cattr, PETSC_INT, <void*>&idata) )
+
+    def writeAttributeScalar(self, group, attr, data):
+        cdef const_char *cgroup = NULL
+        group = str2bytes(group, &cgroup)
+        cdef const_char *cattr = NULL
+        group = str2bytes(attr, &cattr)
+        cdef PetscScalar sdata = asScalar(data)
+        CHKERR( PetscViewerHDF5WriteAttribute(self.vwr, cgroup, cattr, PETSC_SCALAR, <void*>&sdata) )
+
+    def writeAttributeString(self, group, attr, data):
+        cdef const_char *cgroup = NULL
+        group = str2bytes(group, &cgroup)
+        cdef const_char *cattr = NULL
+        group = str2bytes(attr, &cattr)
+        cdef const_char *cdata = NULL
+        data = str2bytes(data, &cdata)
+        CHKERR( PetscViewerHDF5WriteAttribute(self.vwr, cgroup, cattr, PETSC_STRING, <void*>cdata) )
+
+    def writeAttribute(self, group, attr, data):
+        if isinstance(data, int): return self.writeAttributeInt(group, attr, data)
+        if isinstance(data, float): return self.writeAttributeScalar(group, attr, data)
+        if isinstance(data, str): return self.writeAttributeString(group, attr, data)
+
 # --------------------------------------------------------------------
 
 del ViewerType

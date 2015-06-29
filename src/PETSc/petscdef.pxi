@@ -40,7 +40,11 @@ cdef extern from * nogil:
         PETSC_COPY_VALUES
         PETSC_OWN_POINTER
         PETSC_USE_POINTER
-    
+
+    ctypedef enum PetscDataType:
+        PETSC_INT
+        PETSC_SCALAR
+        PETSC_STRING
 
 cdef extern from * nogil:
 
