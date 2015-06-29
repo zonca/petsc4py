@@ -369,6 +369,15 @@ cdef class ViewerHDF5(Viewer):
         CHKERR( PetscViewerHDF5GetGroup(self.vwr, &cgroup) )
         return bytes2str(cgroup)
 
+    def hasAttribute(self, group, attr):
+        cdef const_char *cgroup = NULL
+        group = str2bytes(group, &cgroup)
+        cdef const_char *cattr = NULL
+        group = str2bytes(attr, &cattr)
+        cdef PetscBool flag = PETSC_FALSE
+        CHKERR( PetscViewerHDF5HasAttribute(self.vwr, cgroup, cattr, &flag) )
+        return <bint> flag
+
 # --------------------------------------------------------------------
 
 del ViewerType
