@@ -44,6 +44,7 @@ cdef extern from * nogil:
     ctypedef enum PetscDataType:
         PETSC_INT
         PETSC_SCALAR
+        PETSC_COMPLEX
         PETSC_STRING
 
 cdef extern from * nogil:

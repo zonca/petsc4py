@@ -407,6 +407,11 @@ cdef class ViewerHDF5(Viewer):
         if isinstance(data, int): return self.writeAttributeInt(group, attr, data)
         if isinstance(data, float): return self.writeAttributeScalar(group, attr, data)
         if isinstance(data, str): return self.writeAttributeString(group, attr, data)
+        if isinstance(data, complex):
+            if PETSC_COMPLEX==PETSC_SCALAR:
+                return self.writeAttributeScalar(group, attr, data)
+            else:
+                raise TypeError("PETSc was compiled without complex number support")
 
 # --------------------------------------------------------------------
 
